@@ -16,6 +16,7 @@ use PHPUnit_Framework_TestCase;
 use Doctrine\DBAL\Driver\OCI8Ext\Driver;
 use ReflectionObject;
 use RuntimeException;
+
 use function getenv;
 use function implode;
 use function oci_close;
@@ -24,10 +25,8 @@ use function oci_error;
 use function oci_execute;
 use function oci_parse;
 use function sprintf;
-use function strpos;
-use function strrpos;
-use function strtoupper;
-use function substr;
+
+use const OCI_DEFAULT;
 
 /**
  * Class AbstractTestCase
