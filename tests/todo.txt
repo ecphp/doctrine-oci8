@@ -1,2 +1,0 @@
-
-Full test examples: https://github.com/jpina/oci8

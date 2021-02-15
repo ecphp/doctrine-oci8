@@ -1,71 +1,51 @@
 <?php
 
-/*
- * This file is part of the doctrine-oci8-extended package.
- *
- * (c) Jason Hofer <jason.hofer@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
-namespace Doctrine\DBAL\Test;
+namespace tests\EcPhp\DoctrineOci8;
 
 use Doctrine\DBAL;
-use PHPUnit_Framework_TestCase;
-use Doctrine\DBAL\Driver\OCI8Ext\Driver;
+use Doctrine\DBAL\Types\Type;
+use EcPhp\DoctrineOci8\Doctrine\DBAL\Driver\OCI8\Driver;
+use EcPhp\DoctrineOci8\Doctrine\DBAL\Types\CursorType;
+use PHPUnit\Framework\TestCase;
 use ReflectionObject;
-use RuntimeException;
 
 use function getenv;
-use function implode;
-use function oci_close;
-use function oci_connect;
-use function oci_error;
-use function oci_execute;
-use function oci_parse;
-use function sprintf;
-
-use const OCI_DEFAULT;
 
 /**
- * Class AbstractTestCase
- *
- * @package Doctrine\DBAL\Test
- * @author  Jason Hofer <jason.hofer@gmail.com>
- * 2018-02-23 4:26 PM
+ * @internal
  */
-abstract class AbstractTestCase extends PHPUnit_Framework_TestCase
+abstract class AbstractTestCase extends TestCase
 {
     /**
      * @var DBAL\Connection
      */
     private $connection;
 
-    /**
-     * @var OciWrapper
-     */
-    private $oci;
+    private OciWrapper $oci;
 
     /**
-     * @return DBAL\Connection
-     *
      * @throws DBAL\DBALException
      */
-    protected function getConnection() : DBAL\Connection
+    protected function getConnection(): DBAL\Connection
     {
         if ($this->connection) {
             return $this->connection;
         }
 
         $params = [
-            'user'        => getenv('DB_USER'),
-            'password'    => getenv('DB_PASSWORD'),
-            'host'        => getenv('DB_HOST'),
-            'port'        => getenv('DB_PORT'),
-            'dbname'      => getenv('DB_SCHEMA'),
+            'user' => getenv('DB_USER'),
+            'password' => getenv('DB_PASSWORD'),
+            'host' => getenv('DB_HOST'),
+            'port' => getenv('DB_PORT'),
+            'dbname' => getenv('DB_SCHEMA'),
             'driverClass' => Driver::class,
         ];
+
+        if (false === Type::hasType('cursor')) {
+            Type::addType('cursor', CursorType::class);
+        }
 
         $config = new DBAL\Configuration();
 
@@ -74,7 +54,7 @@ abstract class AbstractTestCase extends PHPUnit_Framework_TestCase
 
     protected function getPropertyValue($obj, $prop)
     {
-        $rObj  = new ReflectionObject($obj);
+        $rObj = new ReflectionObject($obj);
         $rProp = $rObj->getProperty($prop);
         $rProp->setAccessible(true);
 
@@ -83,17 +63,14 @@ abstract class AbstractTestCase extends PHPUnit_Framework_TestCase
 
     protected function invokeMethod($obj, $method, array $args = [])
     {
-        $rObj    = new ReflectionObject($obj);
+        $rObj = new ReflectionObject($obj);
         $rMethod = $rObj->getMethod($method);
         $rMethod->setAccessible(true);
 
         return $rMethod->invokeArgs($obj, $args);
     }
 
-    /**
-     * @return OciWrapper
-     */
-    protected function oci() : OciWrapper
+    protected function oci(): OciWrapper
     {
         return $this->oci ?: ($this->oci = new OciWrapper());
     }

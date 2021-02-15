@@ -2,16 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Doctrine\DBAL\Test;
+namespace tests\EcPhp\DoctrineOci8;
 
 use const OCI_DEFAULT;
 
-/**
- * Class OciWrapper.
- *
- * Utility class for performing database setup and tear-down.
- */
-class OciWrapper
+final class OciWrapper
 {
     private $dbh;
 
@@ -71,8 +66,6 @@ class OciWrapper
      *
      * @param string $type
      * @param string $name
-     *
-     * @return bool
      */
     public function drop($type, $name): bool
     {
