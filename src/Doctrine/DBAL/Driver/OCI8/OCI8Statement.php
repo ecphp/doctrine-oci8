@@ -8,6 +8,7 @@ use Doctrine\DBAL\Driver\OCI8\OCI8Statement as BaseStatement;
 use Doctrine\DBAL\ParameterType;
 use LogicException;
 use PDO;
+
 use function array_map;
 use function count;
 use function is_array;
@@ -17,6 +18,7 @@ use function max;
 use function oci_bind_array_by_name;
 use function oci_bind_by_name;
 use function reset;
+
 use const OCI_B_BLOB;
 use const OCI_B_CLOB;
 use const OCI_B_CURSOR;
@@ -219,8 +221,6 @@ class OCI8Statement extends BaseStatement
         return $columnValue;
     }
 
-    /** @noinspection MoreThanThreeArgumentsInspection */
-
     /**
      * @param string $column
      * @param mixed  $variable
@@ -228,15 +228,18 @@ class OCI8Statement extends BaseStatement
      * @param int    $maxItemLength
      * @param int    $type
      */
-    protected function bindArrayByName($column, &$variable, $maxTableLength, $maxItemLength = -1, $type = SQLT_AFC): bool
-    {
+    protected function bindArrayByName(
+        $column,
+        &$variable,
+        $maxTableLength,
+        $maxItemLength = -1,
+        $type = SQLT_AFC
+    ): bool {
         // For PHP 7's OCI8 extension (prevents garbage collection).
         $this->references[$column] = &$variable;
 
         return oci_bind_array_by_name($this->_sth, $column, $variable, $maxTableLength, $maxItemLength, $type);
     }
-
-    /** @noinspection MoreThanThreeArgumentsInspection */
 
     /**
      * @param string $column
@@ -368,7 +371,8 @@ class OCI8Statement extends BaseStatement
     {
         $returnResources = ($checkGlobal && $this->returningResources) || ($fetchMode & OCI8::RETURN_RESOURCES);
         $returnCursors = ($checkGlobal && $this->returningCursors) || ($fetchMode & OCI8::RETURN_CURSORS);
-        $fetchMode &= ~(OCI8::RETURN_RESOURCES + OCI8::RETURN_CURSORS); // Must unset the flags or there will be an error.
+        // Must unset the flags or there will be an error.
+        $fetchMode &= ~(OCI8::RETURN_RESOURCES + OCI8::RETURN_CURSORS);
         $fetchMode = (int) ($fetchMode ?: $this->_defaultFetchMode);
 
         return [$fetchMode, $returnResources, $returnCursors];
