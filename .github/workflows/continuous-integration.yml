@@ -57,6 +57,12 @@ jobs:
               run: |
                 until docker-compose logs oracle_xe | grep "Database ready to use."; do echo "Waiting..." && sleep 5; done
 
+            - name: Run pwd and ls -la
+              run: |
+                pwd
+                ls -la
+                tree
+
             - name: Run test suite
               run: docker-compose exec -T php ./vendor/bin/phpunit
 
