@@ -27,52 +27,26 @@ use const SQLT_CHR;
 
 class OCI8Statement extends BaseStatement
 {
-    /**
-     * @var bool
-     */
-    protected $checkedForCursorFields = false;
+    protected bool $checkedForCursorFields = false;
 
-    /**
-     * @var array
-     */
-    protected $cursorFields = [];
+    protected array $cursorFields = [];
 
-    /**
-     * Holds references to bound parameter values.
-     *
-     * This is a new requirement for PHP7's oci8 extension that prevents bound values from being garbage collected.
-     *
-     * @see \Doctrine\DBAL\Driver\OCI8\OCI8Statement::$boundValues
-     *
-     * @var array
-     */
-    private $references = [];
+    private array $references = [];
 
     /**
      * Used because parent::fetchAll() calls $this->fetch().
-     *
-     * @var bool
      */
-    private $returningCursors = false;
+    private bool $returningCursors = false;
 
     /**
      * Used because parent::fetchAll() calls $this->fetch().
-     *
-     * @var bool
      */
-    private $returningResources = false;
+    private bool $returningResources = false;
 
-    /** @noinspection MoreThanThreeArgumentsInspection */
-    /** @noinspection PhpHierarchyChecksInspection */
-
-    /**
-     * {@inheritdoc}
-     */
     public function bindParam($column, &$variable, $type = ParameterType::STRING, $length = null): bool
     {
         $origCol = $column;
 
-        /** @noinspection CallableParameterUseCaseInTypeContextInspection */
         $column = $this->_paramMap[$column] ?? $column;
 
         [$type, $ociType] = $this->normalizeType($type);
@@ -118,11 +92,6 @@ class OCI8Statement extends BaseStatement
         return parent::bindParam($origCol, $variable, $type, $length);
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws LogicException
-     */
     public function bindValue($param, $value, $type = ParameterType::STRING): bool
     {
         [$type, $ociType] = $this->normalizeType($type);
@@ -134,20 +103,11 @@ class OCI8Statement extends BaseStatement
         return parent::bindValue($param, $value, $type);
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Doctrine\DBAL\Driver\OCI8\OCI8Exception
-     */
     public function fetch($fetchMode = null, $cursorOrientation = PDO::FETCH_ORI_NEXT, $cursorOffset = 0)
     {
-        [
-            $fetchMode,
-            $returnResources,
-            $returnCursors
-        ] = $this->processFetchMode($fetchMode, true);
-        // "Globals" are checked because parent::fetchAll() calls $this->fetch().
+        [$fetchMode, $returnResources, $returnCursors] = $this->processFetchMode($fetchMode, true);
 
+        // "Globals" are checked because parent::fetchAll() calls $this->fetch().
         $row = parent::fetch($fetchMode, $cursorOrientation, $cursorOffset);
 
         if (!$returnResources) {
@@ -164,13 +124,9 @@ class OCI8Statement extends BaseStatement
      */
     public function fetchAll($fetchMode = null, $fetchArgument = null, $ctorArgs = null)
     {
-        [
-            $fetchMode,
-            $this->returningResources,
-            $this->returningCursors
-        ] = $this->processFetchMode($fetchMode);
-        // "Globals" are set because parent::fetchAll() calls $this->fetch().
+        [$fetchMode, $this->returningResources, $this->returningCursors] = $this->processFetchMode($fetchMode);
 
+        // "Globals" are set because parent::fetchAll() calls $this->fetch().
         $results = parent::fetchAll($fetchMode, $fetchArgument, $ctorArgs);
 
         if (
@@ -198,18 +154,9 @@ class OCI8Statement extends BaseStatement
         return $results;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \Doctrine\DBAL\Driver\OCI8\OCI8Exception
-     */
     public function fetchColumn($columnIndex = 0, $fetchMode = null)
     {
-        [
-            $fetchMode,
-            $returnResources,
-            $returnCursors
-        ] = $this->processFetchMode($fetchMode);
+        [$fetchMode, $returnResources, $returnCursors] = $this->processFetchMode($fetchMode);
 
         /** @var array|bool|resource|string|null $columnValue */
         $columnValue = parent::fetchColumn($columnIndex);

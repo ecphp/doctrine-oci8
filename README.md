@@ -22,7 +22,9 @@ This is a fork of the original package [develpup/doctrine-oci8-extended][http de
 
 ### Symfony 5
 
-Edit the `doctrine.yaml` as such:
+Use the [ecphp/doctrine-oci8-bundle][http ecphp/doctrine-oci8-bundle] to automatically configure the parameters.
+
+If you prefer modifying the configuration, edit the `doctrine.yaml` as such:
 
 ```yaml
 doctrine:
@@ -33,6 +35,7 @@ doctrine:
 ```
 
 ## Usage
+
 ```php
 <?php
 
@@ -64,7 +67,7 @@ $stmt->bindValue('user_id', 42);
 $stmt->bindParam('cursor', $cursor, \PDO::PARAM_STMT);
 $stmt->execute();
 
-/** @var $cursor Doctrine\DBAL\Driver\OCI8\OCI8Cursor */
+/** @var $cursor EcPhp\DoctrineOci8\Doctrine\DBAL\Driver\OCI8\OCI8Cursor */
 $cursor->execute();
 
 while ($row = $cursor->fetch()) {
@@ -120,3 +123,4 @@ To run the tests, do the following steps
 
 
 [http develpup/doctrine-oci8-extended]: https://github.com/jasonhofer/doctrine-oci8-extended
+[http ecphp/doctrine-oci8-bundle]: https://github.com/ecphp/doctrine-oci8-bundle

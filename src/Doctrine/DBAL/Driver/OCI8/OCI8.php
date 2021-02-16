@@ -62,18 +62,12 @@ final class OCI8
 
     public const RETURN_RESOURCES = 0x0100;
 
-    /**
-     * @param int $value
-     */
-    public static function decodeParamConstant($value): int
+    public static function decodeParamConstant(int $value): int
     {
         return self::isParamConstant($value) ? ($value & ~PARAM_PREFIX) : $value;
     }
 
-    /**
-     * @param int $value
-     */
-    public static function isParamConstant($value): bool
+    public static function isParamConstant(int $value): bool
     {
         return PARAM_PREFIX <= $value && PARAM_MAX >= $value;
     }
