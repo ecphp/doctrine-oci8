@@ -57,16 +57,6 @@ jobs:
               run: |
                 until docker-compose logs oracle_xe | grep "Database ready to use."; do echo "Waiting..." && sleep 5; done
 
-            - name: Run pwd and ls -la
-              run: |
-                pwd
-                ls -la
-
-            - name: Run pwd and ls -la in docker
-              run: |
-                docker-compose exec -T php pwd
-                docker-compose exec -T php ls -la
-
             - name: Run test suite
               run: docker-compose exec -T php ./vendor/bin/phpunit
 
@@ -76,8 +66,13 @@ jobs:
             - name: Install dependencies
               run: composer install --no-progress --prefer-dist --optimize-autoloader
 
+            - name: Run pwd and ls -la
+              run: |
+                pwd
+                ls -la
+
             - name: Run Grumphp
-              run: composer grumphp
+              run: ./vendor/bin/grumphp run
 
             - name: Send PSALM data
               run: ./vendor/bin/psalm --shepherd --stats src/
