@@ -31,7 +31,7 @@ jobs:
               uses: shivammathur/setup-php@master
               with:
                   php-version: ${{ matrix.php-versions }}
-                  extensions: xdebug,mbstring
+                  extensions: xdebug,mbstring,oci8
 
             - name: Get Composer Cache Directory
               id: composer-cache
