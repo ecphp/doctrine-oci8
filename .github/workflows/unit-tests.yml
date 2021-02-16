@@ -8,7 +8,7 @@ name: "Continuous Integration"
 
 jobs:
     run:
-        name: "Grumphp"
+        name: "Unit tests"
         runs-on: ${{ matrix.operating-system }}
         strategy:
             fail-fast: false
@@ -47,7 +47,7 @@ jobs:
             - name: Copy env file
               run: cp .env.example .env
 
-            - name: Build the docker-compose stack
+            - name: Build docker stack
               run: docker-compose -f docker-compose.yaml up -d
 
             - name: Install dependencies
@@ -59,32 +59,3 @@ jobs:
 
             - name: Run test suite
               run: docker-compose exec -T php ./vendor/bin/phpunit
-
-            - name: Clean vendor and composer.lock
-              run: docker-compose exec -T php rm -rf vendor composer.lock
-
-            - name: Install dependencies
-              run: composer install --no-progress --prefer-dist --optimize-autoloader
-
-            - name: Run pwd and ls -la
-              run: |
-                pwd
-                ls -la
-
-            - name: Run Grumphp
-              run: ./vendor/bin/grumphp run
-
-            - name: Send PSALM data
-              run: ./vendor/bin/psalm --shepherd --stats src/
-              continue-on-error: true
-
-            - name: Send Scrutinizer data
-              run: |
-                  wget https://scrutinizer-ci.com/ocular.phar
-                  php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
-              continue-on-error: true
-
-            - name: Infection score report
-              run: |
-                  ./vendor/bin/infection run -j 2
-              continue-on-error: true
