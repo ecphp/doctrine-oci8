@@ -10,6 +10,7 @@ use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\DBAL\Types\CursorType;
 use Doctrine\DBAL\Types\Type;
 use Exception;
+use Throwable;
 
 use const OCI_DEFAULT;
 
@@ -22,12 +23,6 @@ final class Driver extends BaseDriver
         }
     }
 
-    /**
-     * @param mixed|null $username
-     * @param mixed|null $password
-     *
-     * @throws Exception
-     */
     public function connect(
         array $params,
         $username = null,
@@ -43,11 +38,9 @@ final class Driver extends BaseDriver
                 $params['sessionMode'] ?? OCI_DEFAULT,
                 $params['persistent'] ?? false
             );
-        } catch (Exception $e) {
-            if ($e instanceof OCI8Exception) {
-                throw DBALException::driverException($this, $e);
-            }
-
+        } catch (OCI8Exception $e) {
+            throw DBALException::driverException($this, $e);
+        } catch (Throwable $e) {
             throw $e;
         }
 
