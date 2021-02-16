@@ -43,9 +43,11 @@ namespace App;
 
 use Doctrine\DBAL\Types\Type;
 use EcPhp\DoctrineOci8\Doctrine\DBAL\Types\CursorType;
+use EcPhp\DoctrineOci8\Doctrine\DBAL\Driver\OCI8\Driver;
 
 include __DIR__ .'/vendor/autoload.php';
 
+// Register the custom type.
 if (false === Type::hasType('cursor')) {
     Type::addType('cursor', CursorType::class);
 }
@@ -58,7 +60,7 @@ $params = [
     'host'        => 'database.host',
     'port'        => 1521,
     'persistent'  => true,
-    'driverClass' => 'EcPhp\DoctrineOci8\Doctrine\DBAL\Driver\OCI8\Driver',
+    'driverClass' => Driver::class, // This is where we load the driver.
 ];
 $conn = Doctrine\DBAL\DriverManager::getConnection($params, $config);
 

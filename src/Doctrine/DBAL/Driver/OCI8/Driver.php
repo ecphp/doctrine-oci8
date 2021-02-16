@@ -7,22 +7,12 @@ namespace EcPhp\DoctrineOci8\Doctrine\DBAL\Driver\OCI8;
 use Doctrine\DBAL\Driver\OCI8\Driver as BaseDriver;
 use Doctrine\DBAL\Driver\OCI8\OCI8Exception;
 use Doctrine\DBAL\Exception as DBALException;
-use Doctrine\DBAL\Types\CursorType;
-use Doctrine\DBAL\Types\Type;
-use Exception;
 use Throwable;
 
 use const OCI_DEFAULT;
 
 final class Driver extends BaseDriver
 {
-    public function __construct()
-    {
-        if (false === Type::hasType('cursor')) {
-            Type::addType('cursor', CursorType::class);
-        }
-    }
-
     public function connect(
         array $params,
         $username = null,
