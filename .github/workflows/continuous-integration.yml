@@ -55,7 +55,7 @@ jobs:
 
             - name: Wait for Oracle Database to finish setup
               run: |
-                until docker logs oracle_xe | grep "Database ready to use."; do echo "Waiting..." && sleep 5; done
+                until docker-compose logs oracle_xe | grep "Database ready to use."; do echo "Waiting..." && sleep 5; done
 
             - name: Run test suite
               run: docker-compose exec -T php ./vendor/bin/phpunit
