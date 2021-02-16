@@ -4,8 +4,7 @@ services:
     oracle_xe:
         image: quay.io/maksymbilenko/oracle-12c
         ports:
-            - '49160:22'
-            - '49161:1521'
+            - '1521:1521'
 
     php:
         image: fpfis/httpd-php-oci:7.4

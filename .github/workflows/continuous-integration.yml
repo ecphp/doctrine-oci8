@@ -62,7 +62,7 @@ jobs:
               run: docker-compose exec -T php ./vendor/bin/phpunit
 
             - name: Clean vendor and composer.lock
-              run: docker-compose exec -T rm -rf vendor composer.lock
+              run: docker-compose exec -T php rm -rf vendor composer.lock
 
             - name: Install dependencies
               run: composer install --no-progress --prefer-dist --optimize-autoloader
