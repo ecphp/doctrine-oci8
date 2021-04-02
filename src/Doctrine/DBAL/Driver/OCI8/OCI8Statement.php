@@ -23,7 +23,9 @@ use const OCI_B_BLOB;
 use const OCI_B_CLOB;
 use const OCI_B_CURSOR;
 use const OCI_BOTH;
+use const SQLT_AFC;
 use const SQLT_CHR;
+use const SQLT_INT;
 
 class OCI8Statement extends BaseStatement
 {

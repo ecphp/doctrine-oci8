@@ -8,6 +8,7 @@ use EcPhp\DoctrineOci8\Doctrine\DBAL\Driver\OCI8\OCI8;
 use PDO;
 use tests\EcPhp\DoctrineOci8\AbstractTestCase;
 
+use const OCI_B_CURSOR;
 use const PHP_INT_MAX;
 
 /**
