@@ -20,7 +20,8 @@
     "require-dev": {
         "drupol/php-conventions": "^3.0",
         "phpunit/phpunit": "^9",
-        "symfony/dotenv": "^5"
+        "symfony/dotenv": "^5",
+        "vimeo/psalm": "^4.7"
     },
     "autoload": {
         "psr-4": {
