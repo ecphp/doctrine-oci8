@@ -58,4 +58,11 @@ jobs:
                 until docker-compose logs oracle_xe | grep "Database ready to use."; do echo "Waiting..." && sleep 5; done
 
             - name: Run test suite
-              run: docker-compose exec -T php ./vendor/bin/phpunit
+              run: docker-compose exec -T php ./vendor/bin/phpunit --coverage-clover=build/logs/clover.xml
+
+            - name: Send Scrutinizer data
+              run: |
+                  wget https://scrutinizer-ci.com/ocular.phar
+                  php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+              continue-on-error: true
+
