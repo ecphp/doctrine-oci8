@@ -53,8 +53,3 @@ jobs:
             - name: Send PSALM data
               run: vendor/bin/psalm --shepherd --stats src/
               continue-on-error: true
-
-            - name: Infection score report
-              run: |
-                  ./vendor/bin/infection run -j 2
-              continue-on-error: true
