@@ -7,7 +7,7 @@ services:
             - '1521:1521'
 
     php:
-        image: fpfis/httpd-php-oci:7.4
+        image: fpfis/httpd-php-oci-dev:7.4
         working_dir: /var/www/html
         ports:
         - 8080:8080
