@@ -15,10 +15,11 @@
     "require": {
         "php": ">= 7.4",
         "ext-oci8": "*",
+        "ext-pdo": "*",
         "doctrine/dbal": "^2.6"
     },
     "require-dev": {
-        "drupol/php-conventions": "^3.0",
+        "ecphp/php-conventions": "dev-master",
         "phpunit/phpunit": "^9",
         "symfony/dotenv": "^5",
         "vimeo/psalm": "^4.7"
@@ -33,6 +34,14 @@
             "tests\\EcPhp\\DoctrineOci8\\": "tests/"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ecphp/php-conventions"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "scripts": {
         "grumphp": "./vendor/bin/grumphp run"
     }

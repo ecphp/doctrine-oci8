@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright (c) 2017-2021, ECPHP
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE.md file that was distributed with this source code.
+ *
+ * @see https://github.com/ecphp
+ */
+
 declare(strict_types=1);
 
 namespace tests\EcPhp\DoctrineOci8;
@@ -77,13 +86,13 @@ final class OciWrapper
             'PACKAGE' => '-4043',
             'PROCEDURE' => '-4043',
         ];
-        $type = mb_strtoupper($type);
+        $type = strtoupper($type);
         $code = $codes[$type];
 
-        if (false !== mb_strpos('COLUMN CONSTRAINT', $type)) {
-            $pos = mb_strrpos($name, '.');
-            $table = mb_substr($name, 0, $pos);  // "PACKAGE_NAME.TABLE_NAME" or just "TABLE_NAME"
-            $column = mb_substr($name, $pos + 1); // "COLUMN_NAME"
+        if (false !== strpos('COLUMN CONSTRAINT', $type)) {
+            $pos = strrpos($name, '.');
+            $table = substr($name, 0, $pos);  // "PACKAGE_NAME.TABLE_NAME" or just "TABLE_NAME"
+            $column = substr($name, $pos + 1); // "COLUMN_NAME"
             $query = "ALTER TABLE {$table} DROP {$type} {$column}";
         } else {
             $query = "DROP {$type} {$name}";
