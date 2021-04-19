@@ -86,13 +86,13 @@ final class OciWrapper
             'PACKAGE' => '-4043',
             'PROCEDURE' => '-4043',
         ];
-        $type = mb_strtoupper($type);
+        $type = strtoupper($type);
         $code = $codes[$type];
 
-        if (false !== mb_strpos('COLUMN CONSTRAINT', $type)) {
-            $pos = mb_strrpos($name, '.');
-            $table = mb_substr($name, 0, $pos);  // "PACKAGE_NAME.TABLE_NAME" or just "TABLE_NAME"
-            $column = mb_substr($name, $pos + 1); // "COLUMN_NAME"
+        if (false !== strpos('COLUMN CONSTRAINT', $type)) {
+            $pos = strrpos($name, '.');
+            $table = substr($name, 0, $pos);  // "PACKAGE_NAME.TABLE_NAME" or just "TABLE_NAME"
+            $column = substr($name, $pos + 1); // "COLUMN_NAME"
             $query = "ALTER TABLE {$table} DROP {$type} {$column}";
         } else {
             $query = "DROP {$type} {$name}";
