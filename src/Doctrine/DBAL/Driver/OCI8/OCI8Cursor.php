@@ -1,12 +1,8 @@
 <?php
 
 /**
- * Copyright (c) 2017-2021, ECPHP
- *
  * For the full copyright and license information, please view
- * the LICENSE.md file that was distributed with this source code.
- *
- * @see https://github.com/ecphp
+ * the LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
