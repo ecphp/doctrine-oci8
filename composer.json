@@ -19,10 +19,9 @@
         "doctrine/dbal": "^2.6"
     },
     "require-dev": {
-        "ecphp/php-conventions": "dev-master",
+        "ecphp/php-conventions": "^1",
         "phpunit/phpunit": "^9",
-        "symfony/dotenv": "^5",
-        "vimeo/psalm": "^4.7"
+        "symfony/dotenv": "^5"
     },
     "autoload": {
         "psr-4": {
