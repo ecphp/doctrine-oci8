@@ -3,6 +3,8 @@
 /**
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
+ *
+ * @see https://github.com/ecphp
  */
 
 declare(strict_types=1);
@@ -125,6 +127,10 @@ class OCI8Statement extends BaseStatement
     }
 
     /**
+     * @param null|mixed $fetchMode
+     * @param null|mixed $fetchArgument
+     * @param null|mixed $ctorArgs
+     *
      * @throws \Doctrine\DBAL\Driver\OCI8\OCI8Exception
      */
     public function fetchAll($fetchMode = null, $fetchArgument = null, $ctorArgs = null)
