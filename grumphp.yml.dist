@@ -1,2 +1,6 @@
 imports:
   - { resource: vendor/ecphp/php-conventions/config/php73/grumphp.yml }
+
+parameters:
+    tasks.license.name: ~
+    tasks.license.input: resources/LICENSE.template.txt
