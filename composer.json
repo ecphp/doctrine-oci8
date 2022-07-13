@@ -23,14 +23,6 @@
         "phpunit/phpunit": "^9",
         "symfony/dotenv": "^5"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ecphp/php-conventions"
-        }
-    ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "EcPhp\\DoctrineOci8\\": "src/"
@@ -50,6 +42,9 @@
         }
     },
     "scripts": {
-        "grumphp": "./vendor/bin/grumphp run"
+        "changelog-unreleased": "auto-changelog -c .auto-changelog -u",
+        "changelog-version": "auto-changelog -c .auto-changelog -v",
+        "grumphp": "./vendor/bin/grumphp run",
+        "phpspec": "./vendor/bin/phpspec run"
     }
 }

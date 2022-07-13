@@ -1,8 +1,9 @@
-/vendor/
+/.direnv/
 /.idea/
+/build/
+/vendor/
 /.env
 /test.php
 /composer.lock
 .phpunit.result.cache
-/build/
 .php_cs.cache
