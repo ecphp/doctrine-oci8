@@ -1,0 +1,50 @@
+@startuml
+
+skin rose
+hide empty members
+
+title ecphp/doctrine-oci8 migration to dbal3
+
+
+namespace doctrine.dbal {
+  abstract class AbstractDriverException
+  abstract class AbstractOracleDriver
+  
+  class OCI8Exception extends AbstractDriverException
+
+  class Driver extends AbstractOracleDriver
+
+  class OCI8Connection implements Connection, ServerInfoAwareConnection {
+    # dbh : resource
+    # executeMode : int
+  }
+
+  class OCI8Statement implements IteratorAggregate, Statement {
+    # _dbh : resource
+    # _sth : resource
+    # _conn : OCI8Connection
+    # _PARAM : string
+    # fetchModeMap : int[]
+    # _defaultFetchMode : int
+    # _paramMap : string[]
+    # boundValues : mixed[]
+    # result : bool
+  }
+}
+
+namespace ecphp.doctrine-oci8 {
+  class OCI8
+
+  class Driver extends doctrine.dbal.Driver
+
+  class OCI8Connection extends doctrine.dbal.OCI8Connection {
+    + newCursor($sth = null): OCI8Cursor
+    + prepare($prepareString): OCI8Statement
+  }
+
+  class OCI8Cursor extends doctrine.dbal.OCI8Statement
+
+  class OCI8Statement extends doctrine.dbal.OCI8Statement
+}
+
+@enduml

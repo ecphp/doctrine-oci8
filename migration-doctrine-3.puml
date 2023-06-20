@@ -1,0 +1,61 @@
+@startuml
+
+skin rose
+hide empty members
+
+title ecphp/doctrine-oci8 migration to dbal3
+
+namespace doctrine.dbal {
+    together {
+        interface ServerInfoAwareConnection
+        interface Statement
+        interface IteratorAggregate
+        abstract class AbstractOracleDriver
+        class "Connection" as OCI8ConnectionDbal
+        class "OCI8Statement" as OCI8StatementDbal
+        class "Driver" as DriverDbal
+    }
+
+    together {
+        OCI8ConnectionDbal -[dashed]-|> ServerInfoAwareConnection
+        class OCI8ConnectionDbal {
+            # dbh : resource
+            # executeMode : int
+        }
+
+        OCI8StatementDbal -[dashed]-|> IteratorAggregate
+        OCI8StatementDbal -[dashed]-|> Statement
+        class OCI8StatementDbal {
+            # _dbh : resource
+            # _sth : resource
+            # _conn : OCI8Connection
+            # _PARAM : string
+            # fetchModeMap : int[]
+            # _defaultFetchMode : int
+            # _paramMap : string[]
+            # boundValues : mixed[]
+            # result : bool
+        }
+
+        DriverDbal --|> AbstractOracleDriver
+    }
+}
+
+namespace ecphp.doctrineoci8 {
+    together {
+        OCI8Cursor -[dashed]-|> doctrine.dbal.Statement
+        OCI8Cursor *-- doctrine.dbal.Statement
+        OCI8Cursor *-- OCI8Connection
+
+        OCI8Connection -[dashed]-|> doctrine.dbal.ServerInfoAwareConnection
+        OCI8Connection *-- doctrine.dbal.OCI8ConnectionDbal
+
+        Driver --|> doctrine.dbal.AbstractOracleDriver
+        Driver *-- doctrine.dbal.DriverDbal
+
+        OCI8Statement -[dashed]-|> doctrine.dbal.Statement
+        OCI8Statement *-- doctrine.dbal.OCI8ConnectionDbal
+    }
+}
+
+@enduml
