@@ -11,8 +11,9 @@ declare(strict_types=1);
 
 namespace tests\EcPhp\DoctrineOci8\Doctrine\DBAL\Test\Driver\OCI8;
 
+use EcPhp\DoctrineOci8\Doctrine\DBAL\Driver\OCI8\Cursor;
 use EcPhp\DoctrineOci8\Doctrine\DBAL\Driver\OCI8\OCI8;
-use EcPhp\DoctrineOci8\Doctrine\DBAL\Driver\OCI8\OCI8Cursor;
+use EcPhp\DoctrineOci8\Doctrine\DBAL\Driver\OCI8\Statement;
 use LogicException;
 use PDO;
 use tests\EcPhp\DoctrineOci8\AbstractTestCase;
@@ -22,6 +23,7 @@ use function sprintf;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class OCI8StatementTest extends AbstractTestCase
@@ -68,9 +70,9 @@ final class OCI8StatementTest extends AbstractTestCase
         $stmt->bindParam('cursor2', $cursor2, OCI8::PARAM_CURSOR);
         $stmt->bindParam('cursor3', $cursor3, PDO::PARAM_STMT);
 
-        self::assertInstanceOf(OCI8Cursor::class, $cursor1);
-        self::assertInstanceOf(OCI8Cursor::class, $cursor2);
-        self::assertInstanceOf(OCI8Cursor::class, $cursor3);
+        self::assertInstanceOf(Cursor::class, $cursor1);
+        self::assertInstanceOf(Cursor::class, $cursor2);
+        self::assertInstanceOf(Cursor::class, $cursor3);
     }
 
     public function testBindValueThrowsExceptionWhenTypeIsCursor(): void
@@ -109,14 +111,15 @@ final class OCI8StatementTest extends AbstractTestCase
     public function testCursorFetchAll(): void
     {
         $conn = $this->getConnection();
+        /** @var Statement */
         $stmt = $conn->prepare('BEGIN FIRST_NAMES(:cursor); END;');
 
         /** @var OCI8Cursor $cursor */
         $stmt->bindParam('cursor', $cursor, 'cursor');
         $stmt->execute();
-        $cursor->execute();
+        $result = $cursor->execute();
 
-        $results = $cursor->fetchAll(PDO::FETCH_ASSOC);
+        $results = $result->fetchAllAssociative();
 
         self::assertSame(self::$employees, $results);
     }
@@ -126,14 +129,14 @@ final class OCI8StatementTest extends AbstractTestCase
         $conn = $this->getConnection();
         $stmt = $conn->prepare('BEGIN FIRST_NAMES(:cursor); END;');
 
-        /** @var OCI8Cursor $cursor */
+        /** @var Cursor $cursor */
         $stmt->bindParam('cursor', $cursor, 'cursor');
         $stmt->execute();
-        $cursor->execute();
+        $result = $cursor->execute();
 
         $results = [];
 
-        while (false !== ($columnValue = $cursor->fetchColumn())) {
+        while (false !== ($columnValue = $result->fetchOne())) {
             $results[] = $columnValue;
         }
 

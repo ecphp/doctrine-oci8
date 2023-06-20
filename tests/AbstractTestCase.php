@@ -18,8 +18,6 @@ use EcPhp\DoctrineOci8\Doctrine\DBAL\Types\CursorType;
 use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 
-use function getenv;
-
 /**
  * @internal
  */
@@ -42,11 +40,11 @@ abstract class AbstractTestCase extends TestCase
         }
 
         $params = [
-            'user' => getenv('DB_USER'),
-            'password' => getenv('DB_PASSWORD'),
-            'host' => getenv('DB_HOST'),
-            'port' => getenv('DB_PORT'),
-            'dbname' => getenv('DB_SCHEMA'),
+            'user' => $_ENV['DB_USER'],
+            'password' => $_ENV['DB_PASSWORD'],
+            'host' => $_ENV['DB_HOST'],
+            'port' => $_ENV['DB_PORT'],
+            'dbname' => $_ENV['DB_SCHEMA'],
             'driverClass' => Driver::class,
         ];
 

@@ -11,11 +11,12 @@ declare(strict_types=1);
 
 namespace tests\EcPhp\DoctrineOci8\Doctrine\DBAL\Test\Driver\OCI8;
 
-use EcPhp\DoctrineOci8\Doctrine\DBAL\Driver\OCI8\OCI8Statement;
+use EcPhp\DoctrineOci8\Doctrine\DBAL\Driver\OCI8\Statement as OCI8Statement;
 use tests\EcPhp\DoctrineOci8\AbstractTestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class OCI8ConnectionTest extends AbstractTestCase

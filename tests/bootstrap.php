@@ -13,5 +13,4 @@ use Symfony\Component\Dotenv\Dotenv;
 
 $autoloader = require __DIR__ . '/../vendor/autoload.php';
 
-$dotenv = new Dotenv(true);
-$dotenv->loadEnv(__DIR__ . '/../.env');
+(new Dotenv())->loadEnv(__DIR__ . '/../.env');

@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace tests\EcPhp\DoctrineOci8;
 
+use RuntimeException;
+
 use const OCI_DEFAULT;
 
 final class OciWrapper
@@ -25,9 +27,9 @@ final class OciWrapper
         // We must change the password in order to take this in account.
         oci_password_change(
             $this->connect(),
-            getenv('DB_USER'),
-            getenv('DB_PASSWORD'),
-            getenv('DB_PASSWORD')
+            $_ENV['DB_USER'],
+            $_ENV['DB_PASSWORD'],
+            $_ENV['DB_PASSWORD']
         );
     }
 
@@ -43,10 +45,10 @@ final class OciWrapper
     {
         if (!$this->dbh) {
             $this->dbh = oci_connect(
-                getenv('DB_USER'),
-                getenv('DB_PASSWORD'),
-                '//' . getenv('DB_HOST') . ':' . getenv('DB_PORT') . '/' . getenv('DB_SCHEMA'),
-                getenv('DB_CHARSET'),
+                $_ENV['DB_USER'],
+                $_ENV['DB_PASSWORD'],
+                '//' . $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'] . '/' . $_ENV['DB_SCHEMA'],
+                $_ENV['DB_CHARSET'],
                 OCI_DEFAULT
             );
 
