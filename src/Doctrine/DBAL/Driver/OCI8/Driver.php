@@ -11,34 +11,27 @@ declare(strict_types=1);
 
 namespace EcPhp\DoctrineOci8\Doctrine\DBAL\Driver\OCI8;
 
+use Doctrine\DBAL\Driver\AbstractOracleDriver;
 use Doctrine\DBAL\Driver\OCI8\Driver as BaseDriver;
-use Doctrine\DBAL\Driver\OCI8\OCI8Exception;
-use Doctrine\DBAL\Exception as DBALException;
+use Doctrine\DBAL\Driver\OCI8\Exception\ConnectionFailed;
 use Throwable;
 
-use const OCI_DEFAULT;
-
-final class Driver extends BaseDriver
+final class Driver extends AbstractOracleDriver
 {
+    private BaseDriver $driver;
+
+    public function __construct(
+    ) {
+        $this->driver = new BaseDriver();
+    }
+
     public function connect(
         array $params,
-        $username = null,
-        $password = null,
-        array $driverOptions = []
-    ): OCI8Connection {
+    ): Connection {
         try {
-            $connection = new OCI8Connection(
-                $username,
-                $password,
-                $this->_constructDsn($params),
-                $params['charset'] ?? null,
-                $params['sessionMode'] ?? OCI_DEFAULT,
-                $params['persistent'] ?? false
-            );
-        } catch (OCI8Exception $e) {
-            throw DBALException::driverException($this, $e);
-        } catch (Throwable $e) {
-            throw $e;
+            $connection = new Connection($this->driver->connect($params));
+        } catch (Throwable) {
+            throw ConnectionFailed::new();
         }
 
         return $connection;

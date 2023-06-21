@@ -13,15 +13,15 @@
     ],
     "homepage": "https://github.com/ecphp/doctrine-oci8",
     "require": {
-        "php": ">= 7.4",
+        "php": ">= 8.0",
         "ext-oci8": "*",
         "ext-pdo": "*",
-        "doctrine/dbal": "^2.6"
+        "doctrine/dbal": "^3"
     },
     "require-dev": {
         "ecphp/php-conventions": "^1",
-        "phpunit/phpunit": "^9",
-        "symfony/dotenv": "^5"
+        "phpunit/phpunit": "^10",
+        "symfony/dotenv": "^6"
     },
     "autoload": {
         "psr-4": {

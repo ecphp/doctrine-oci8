@@ -12,11 +12,12 @@ declare(strict_types=1);
 namespace tests\EcPhp\DoctrineOci8\Doctrine\DBAL\Test\Driver\OCI8;
 
 use Doctrine\DBAL\Types\Type;
-use EcPhp\DoctrineOci8\Doctrine\DBAL\Driver\OCI8\OCI8Connection;
+use EcPhp\DoctrineOci8\Doctrine\DBAL\Driver\OCI8\Connection as OCI8Connection;
 use tests\EcPhp\DoctrineOci8\AbstractTestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class DriverTest extends AbstractTestCase

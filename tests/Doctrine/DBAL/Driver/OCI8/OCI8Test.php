@@ -20,6 +20,7 @@ use const PHP_INT_MAX;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 final class OCI8Test extends AbstractTestCase
